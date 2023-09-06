@@ -1,71 +1,51 @@
+/**
+ * * Call the consts you need to run Express, axios, and body-parser
+ */ 
 const express = require('express');
 const axios = require('axios');
+const bodyParser = require('body-parser');
+
+//* Instantiate Express
 const app = express();
 
-app.set('view engine', 'pug');
-app.use(express.static(__dirname + '/public'));
+//* Express app.use for JSON encoding
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// * Please include the private app access token in your repo BUT only an access token built in a TEST ACCOUNT. Don't do this practicum in your normal account.
-const PRIVATE_APP_ACCESS = '';
+//* Use dotenv inside of a node app
+require('dotenv').config();
 
-// TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
+//* Use pug as the view engine
+app.set('view engine', 'pug');
 
-// * Code for Route 1 goes here
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
+//* Use this to serve up static files from public directory
+app.use(express.static(__dirname + '/public'));
 
-// * Code for Route 2 goes here
 
-// TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
-
-// * Code for Route 3 goes here
-
-/** 
-* * This is sample code to give you a reference for how you should structure your calls. 
-
-* * App.get sample
-app.get('/contacts', async (req, res) => {
-    const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    }
-    try {
-        const resp = await axios.get(contacts, { headers });
-        const data = resp.data.results;
-        res.render('contacts', { title: 'Contacts | HubSpot APIs', data });      
-    } catch (error) {
-        console.error(error);
-    }
+/**  
+ * * First, we'll create a route at the root (/) where our web app will appear.
+ * TODO: Use app.get to call the route, render 'index' file of PUG, send title to index.pug file. 
+ */
+app.get('/', (req, res) => {
+    res.render('index', { title: 'AV Rental Equipment | HubSpot APIs'});
 });
 
-* * App.post sample
-app.post('/update', async (req, res) => {
-    const update = {
-        properties: {
-            "favorite_book": req.body.newVal
-        }
-    }
 
-    const email = req.query.email;
-    const updateContact = `https://api.hubapi.com/crm/v3/objects/contacts/${email}?idProperty=email`;
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    };
+/**
+ * * Next, we'll get the existing data from our custom object to show on our calendar. The data we're calling is from the CSV file we imported.
+ * TODO: Get the custom object ID, then include that in the API endpoint we're sending. We'll use our private app token we made earlier for authorization. Then, we want to view our results in JSON at /get-data route.
+ */
 
-    try { 
-        await axios.patch(updateContact, update, { headers } );
-        res.redirect('back');
-    } catch(err) {
-        console.error(err);
-    }
+// * This constant will be your custom object's id
+const YOUR_CUSTOM_OBJECT_ID = '';
 
-});
-*/
+/**
+ * * Now that we've built our form, it's time to send that data to our HubSpot account upon submit.
+ * TODO: Use app.post to send form data to HubSpot, using the the POST API endpoint. Then, when the POST works, redirect to the page you're currently on to show updated calendar.
+ */
 
-
-// * Localhost
+//* This is how we'll listen on port 3000 when we call nodemon.
 app.listen(3000, () => console.log('Listening on http://localhost:3000'));

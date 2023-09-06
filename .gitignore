@@ -1,4 +1,17 @@
-.DS_Store
+
+## Node Items
 node_modules
 package-lock.json
+
+
+## HubSpot Items
+hubspot.config.yml
+
+
+## System Files
+.DS_Store
+Thumbs.db
+
+
+## Secret keys
 .env
