@@ -40,7 +40,24 @@ app.get('/', (req, res) => {
  */
 
 // * This constant will be your custom object's id
-const YOUR_CUSTOM_OBJECT_ID = '';
+const YOUR_CUSTOM_OBJECT_ID = '2-18296239'; 
+app.get('/get-data', async (req, res) => {
+    const apiCall = `https://api.hubapi.com/crm/v3/objects/${YOUR_CUSTOM_OBJECT_ID}/?limit=50&archived=false&properties=name,
+    start_date,end_date`;
+    const headers = {
+        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    }
+    try {
+        const resp = await axios.get(apiCall, { headers });
+        const data = resp.data.results;
+        res.json(data);
+    }
+    catch(error) {
+        console.error(error);
+        res.json(error);
+    }
+});
 
 /**
  * * Now that we've built our form, it's time to send that data to our HubSpot account upon submit.

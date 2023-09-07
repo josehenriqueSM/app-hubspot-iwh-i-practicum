@@ -5,7 +5,7 @@ html
         title= `${title}`
         meta(name="viewport" content="width=device-width, initial-scale=1")
         //- Calendar CSS
-        link(rel="stylesheet" href='/dist/calendar.css')
+        link(rel="stylesheet" href='/dist/calendar.css')    
     body    
         .container
             header 
@@ -15,6 +15,7 @@ html
                 h3 Equipment Availability
                 h4(id="month-heading")
                 //- TODO: Instantiate Calendar here
+                #calendar(style={"height": "800px !important"})
             //- * One-half of the page (desktop) for form
             .form
                 h3 Reserve Equipment
