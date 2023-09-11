@@ -63,6 +63,29 @@ app.get('/get-data', async (req, res) => {
  * * Now that we've built our form, it's time to send that data to our HubSpot account upon submit.
  * TODO: Use app.post to send form data to HubSpot, using the the POST API endpoint. Then, when the POST works, redirect to the page you're currently on to show updated calendar.
  */
+app.post('/', async (req, res) => {
+    const newEquipmentRental = {
+        properties: {
+            "name": req.body?.chooseEquipment,
+            "start_date": req.body?.chooseStartDate,
+            "end_date": req.body?.chooseEndDate 
+        }
+    }
+    const postNewRental = `https://api.hubapi.com/crm/v3/objects/${YOUR_CUSTOM_OBJECT_ID}`;
+    const headers = {
+        Authorization: `Bearer ${process.env.PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    try {
+        await axios.post(postNewRental, newEquipmentRental, { headers });
+        res.redirect('back');
+    }
+    catch (error) {
+        console.error(error);
+        res.json(error);
+    }
+});
 
 //* This is how we'll listen on port 3000 when we call nodemon.
 app.listen(3000, () => console.log('Listening on http://localhost:3000'));

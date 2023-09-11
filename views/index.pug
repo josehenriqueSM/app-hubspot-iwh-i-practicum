@@ -15,12 +15,29 @@ html
                 h3 Equipment Availability
                 h4(id="month-heading")
                 //- TODO: Instantiate Calendar here
-                #calendar(style={"height": "800px !important"})
+                #calendar(style={"height": "600px !important"})
             //- * One-half of the page (desktop) for form
             .form
                 h3 Reserve Equipment
                 p Reserve your equipment below! Equipment rentals are for 3 days.
                 //- TODO: Add form here
+                form(method="POST" id="rentEquipment")
+                    label(for="chooseEquipment" id="chooseEquipment") Equipment to Rent 
+                    select(name="chooseEquipment" id="equipment" form="rentEquipment" required)
+                        option(value="mackbok_pro_14") MackBook Pro 14  
+                        option(value="mackbok_pro_16") MackBook Pro 16 
+                        option(value="canon_rebel_t7") Canon Rebel T7  
+                        option(value="canon_eos_r10") Canon EOS R10 
+                        option(value="ptzoptics_30x-ndi_camera") PTZ0ptics 30X-NDI Camera 
+                        option(value="ptzoptics_30x-ndi_camera") PTZ0ptics 30X-NDI Camera
+                        option(value="epson_ex3280_projector") Epson EX3280 Projector 
+                        option(value="epson_pro_ex9240_projector") Epson Pro EX9240 Projector 
+                    label(for="chooseStartDate") Rental Period Start 
+                    input(type="date" id="chooseStartDate" name="chooseStartDate" required)
+                    label(for="chooseEndDate") Rental Period End 
+                    input(type="date" id="chooseEndDate" name="chooseEndDate" required)  
+                    input(type="submit" value="Reserve Your Equipment") 
+
         //- * Calling the script file
         script(src='/dist/calendar.bundled.js')
         
